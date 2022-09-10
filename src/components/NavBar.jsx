@@ -14,7 +14,7 @@ export const NavBar = () => {
           </Link>
         </div>
         <div className="side-nav--link">
-          <Link className="link" to={"/Home"}>
+          <Link className="link" to={"/About"}>
             About
           </Link>
         </div>
