@@ -5,7 +5,7 @@ import { Notyfy } from "../components/Notyfy";
 import { WeatherCard } from "../components/WeatherCard";
 import { useOpenWeather } from "../provider/openWeather/useOpenWeather";
 import { faSearchLocation } from "@fortawesome/free-solid-svg-icons";
-
+import { URL } from "../constant";
 import "./Home.styles.css";
 export const Home = ({ location, error }) => {
   const { latitude = undefined, longitude = undefined } = location.coordinates;
@@ -14,7 +14,7 @@ export const Home = ({ location, error }) => {
   const [city, setCity] = useState();
 
   const [data, isLoading, err] = useOpenWeather({
-    key: "8104d4901662be2e6f0f7cff230f3da6",
+    key: URL.KEY,
     lang: "en",
     forecastLimit: 8,
     unit: "metric",
