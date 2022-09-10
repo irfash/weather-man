@@ -1,0 +1,29 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: skyblue; */
+  background-image: linear-gradient(to bottom right, #0181c2, #04a7f9, #4bc4f7);
+  padding: 0.5rem 2rem;
+}
+.barnd-nav {
+  font-size: 2rem;
+}
+.side-nav {
+  display: flex;
+}
+.side-nav--link {
+  font-size: 1rem;
+  padding: 3px 6px;
+  margin-left: 0.3rem;
+
+  transition: 0.25s;
+}
+.side-nav--link:hover {
+  background-color: rgba(255, 255, 255, 0.185);
+  box-shadow: 0px 2px rgba(255, 255, 255, 0.671);
+}
+.link {
+  color: white;
+  text-decoration: none;
+}

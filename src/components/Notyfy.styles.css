@@ -1,0 +1,38 @@
+.notyfy {
+  position: absolute;
+  padding: 0.3rem 0.6rem;
+  border-left: 4px solid red;
+  border-radius: 3px;
+  color: rgb(88, 37, 37);
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  width: 90%;
+  right: 0;
+  left: 0;
+  margin: auto;
+  top: 2px;
+  background-color: #ff9d9d;
+  animation: enter 1s ease-in-out;
+}
+.clear-btn {
+  cursor: pointer;
+  color: rgb(201, 0, 0);
+}
+.clear-btn:hover {
+  color: rgb(255, 0, 0);
+}
+
+@keyframes enter {
+  60% {
+    transform: translate3d(0, 20px, 0);
+  }
+  30% {
+    transform: translate3d(0, -40px, 0) rotate(5deg);
+  }
+  0% {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translate3d(0, 60px, 0) rotate(-25deg);
+  }
+}

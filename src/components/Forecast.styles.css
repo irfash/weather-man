@@ -1,0 +1,31 @@
+.forecast {
+  padding: 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.forecast-day {
+  text-align: center;
+  margin: 10px 0px 10px 0;
+  padding: 12px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 6px rgb(105, 105, 105);
+}
+
+.forecast-date {
+  font-size: 0.7rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.forecast-des {
+  margin: 10px 0 10px 0;
+}
+
+.forecast-temperature {
+  font-size: 0.7rem;
+}
+.forecast-wind {
+  font-size: 0.7rem;
+}

@@ -1,0 +1,25 @@
+.card {
+  border-radius: 5px;
+  box-shadow: 1px 0px 6px rgb(88, 88, 88);
+  margin: 1rem 2rem 1rem 2rem;
+}
+
+.card-today {
+  display: flex;
+}
+.rCard-left {
+  width: 100%;
+  border-radius: 5px 0px 0px 0px;
+}
+.rCard-right {
+  width: 60%;
+  border-radius: 0 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rCard-left,
+.rCard-right {
+  background-image: linear-gradient(to bottom right, #0181c2, #04a7f9, #4bc4f7);
+}
