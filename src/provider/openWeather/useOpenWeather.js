@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { getIcon } from "./iconsMap";
 
 const initialState = {
@@ -76,105 +76,123 @@ const mapWeatherData = (currentData, forecastData, forecastLimit, location) => {
   }
   return mapped;
 };
-
-export const useOpenWeather = (props) => {
-  const {
-    key,
-    unit = "metric",
-    latitude = 11.341036,
-    longitude = 77.717163,
-    lang = "en",
-    forecastLimit = 5,
-    city = undefined,
-  } = props;
+const fetchCityName = async (endpointReverse, latitude, longitude, key) => {
+  try {
+    return await axios.get(endpointReverse, {
+      params: {
+        lat: latitude,
+        lon: longitude,
+        limit: 1,
+        appid: key,
+      },
+    });
+  } catch (error) {
+    console.warn(error);
+  }
+};
+const fetchForecast = async (endpointOnecall, lat, lon, unit, lang, key) => {
+  try {
+    return axios.get(endpointOnecall, {
+      params: {
+        lat: lat,
+        lon: lon,
+        units: unit,
+        lang: lang,
+        appid: key,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const fetchCoordinate = async (endpointDirect, city, key) => {
+  try {
+    return await axios.get(endpointDirect, {
+      params: {
+        q: city,
+        limit: 1,
+        appid: key,
+      },
+    });
+  } catch (error) {
+    console.warn(error);
+  }
+};
+export const useOpenWeather = ({
+  key,
+  unit = "metric",
+  latitude = 11.341036,
+  longitude = 77.717163,
+  lang = "en",
+  forecastLimit = 5,
+  city = undefined,
+}) => {
   const endpointOnecall = "//api.openweathermap.org/data/2.5/onecall";
   const endpointReverse = "//api.openweathermap.org/geo/1.0/reverse";
   const endpointDirect = "//api.openweathermap.org/geo/1.0/direct";
   const [state, dispatch] = useReducer(fetchRecord, initialState);
   const { error, data } = state;
   const [isLoading, setIsLoading] = useState(false);
-
-  const fetchCoordinate = async () => {
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
     try {
-      return await axios.get(endpointDirect, {
-        params: {
-          q: city,
-          limit: 1,
-          appid: key,
-        },
-      });
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-  const fetchCityName = async () => {
-    try {
-      return await axios.get(endpointReverse, {
-        params: {
-          lat: latitude,
-          lon: longitude,
-          limit: 1,
-          appid: key,
-        },
-      });
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-  const fetchForecast = async (lat, lon) => {
-    try {
-      return axios.get(endpointOnecall, {
-        params: {
-          lat: lat,
-          lon: lon,
-          units: unit,
-          lang: lang,
-          appid: key,
-        },
-      });
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        let location = {};
-        let forecastResponse = undefined;
-        if (city) {
-          const coordinateResponse = await fetchCoordinate();
-          if (coordinateResponse.data.length === 0) {
-            throw new Error("invalid input");
-          }
-
-          location.name = coordinateResponse.data[0].name;
-          location.country = coordinateResponse.data[0].country;
-          location.state = coordinateResponse.data[0].state;
-          forecastResponse = await fetchForecast(
-            coordinateResponse.data[0].lat,
-            coordinateResponse.data[0].lon,
-          );
-        } else {
-          const cityNameResponse = await fetchCityName();
-          forecastResponse = await fetchForecast(latitude, longitude);
-          location.name = cityNameResponse.data[0].name;
-          location.state = cityNameResponse.data[0].state;
-          location.country = cityNameResponse.data[0].country;
-        }
-        const payload = mapWeatherData(
-          forecastResponse.data.current,
-          forecastResponse.data.daily,
-          forecastLimit,
-          location,
+      let location = {};
+      let forecastResponse = undefined;
+      if (city) {
+        const coordinateResponse = await fetchCoordinate(
+          endpointDirect,
+          city,
+          key,
         );
-        dispatch({ action: SUCCESS, payload });
-      } catch (error) {
-        dispatch({ action: FAILURE, payload: error.message || "error" });
+        if (coordinateResponse.data.length === 0) {
+          throw new Error("invalid input");
+        }
+
+        location.name = coordinateResponse.data[0].name;
+        location.country = coordinateResponse.data[0].country;
+        location.state = coordinateResponse.data[0].state;
+        forecastResponse = await fetchForecast(
+          endpointOnecall,
+          coordinateResponse.data[0].lat,
+          coordinateResponse.data[0].lon,
+          unit,
+          lang,
+          key,
+        );
+      } else {
+        const cityNameResponse = await fetchCityName(
+          endpointReverse,
+          latitude,
+          longitude,
+          key,
+        );
+
+        forecastResponse = await fetchForecast(
+          endpointOnecall,
+          latitude,
+          longitude,
+          unit,
+          lang,
+          key,
+        );
+        location.name = cityNameResponse.data[0].name;
+        location.state = cityNameResponse.data[0].state;
+        location.country = cityNameResponse.data[0].country;
       }
-      setIsLoading(false);
-    };
+      const payload = mapWeatherData(
+        forecastResponse.data.current,
+        forecastResponse.data.daily,
+        forecastLimit,
+        location,
+      );
+      dispatch({ action: SUCCESS, payload });
+    } catch (error) {
+      dispatch({ action: FAILURE, payload: error.message || "error" });
+    }
+    setIsLoading(false);
+  }, [city, forecastLimit, key, lang, latitude, longitude, unit]);
+  useEffect(() => {
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city, latitude, longitude]);
+  }, [city, fetchData, latitude, longitude]);
   return [data, isLoading, error];
-};
+};;
