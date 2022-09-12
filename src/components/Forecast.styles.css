@@ -1,31 +1,40 @@
 .forecast {
   padding: 1rem;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+ 
 }
 .forecast-day {
+  min-width: 150px;
   text-align: center;
-  margin: 10px 0px 10px 0;
-  padding: 12px;
+  margin: 10px 3px 10px 3px;
+  padding: 1.2rem;
   border-radius: 6px;
-  box-shadow: 0px 0px 6px rgb(105, 105, 105);
-}
+  box-shadow: 0px 0px 3px rgb(105, 105, 105);
+  transition: box-shadow 0.6s ;
 
+}
+.forecast-day:hover{
+  box-shadow: 0px 0px 16px rgb(105, 105, 105);
+}
 .forecast-date {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
 .forecast-des {
+  font-size: 0.8rem;
   margin: 10px 0 10px 0;
+  word-wrap: break-word;
 }
 
 .forecast-temperature {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
 }
 .forecast-wind {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }

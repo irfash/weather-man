@@ -26,7 +26,7 @@ Icons.propTypes = {
 
 Icons.defaultProps = {
   className: "weatherIcon",
-  size: 20,
-  viewBox: "0 -5 35 40",
+  size: 25,
+  viewBox: "0 -5 40 50",
   color: "#C0C0C0",
 };

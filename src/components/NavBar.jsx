@@ -32,4 +32,3 @@ export const NavBar = () => {
     </nav>
   );
 };
-// style={{ display: "block", margin: "1rem 0" }}

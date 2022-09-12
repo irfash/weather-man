@@ -1,8 +1,8 @@
-import { KEY } from "./config";
+// import { KEY } from "./config";
 
 export const URL = {
   BASE: "//api.openweathermap.org/data/2.5",
-  KEY,
+  KEY: "51d1c9a4ceff34d876a0f4a1eef28ad2",
   EVENTS: {
     API_ID: "&appid=",
     QUERI: "weather?q=",

@@ -51,9 +51,10 @@ const formatCurrentData = (currentData, location) => {
   };
 };
 
-const formatForecastData = (forecastData, limit) => {
+const formatForecastData = (forecastData, forecastLimit) => {
   const mappedForecast = [];
-  for (let i = 0; i < limit; i += 1) {
+
+  for (let i = 0; i < forecastLimit; i += 1) {
     mappedForecast.push({
       date: formateDate(forecastData[i].dt),
       description: forecastData[i].weather[0].description,
@@ -124,7 +125,7 @@ export const useOpenWeather = ({
   latitude = 11.341036,
   longitude = 77.717163,
   lang = "en",
-  forecastLimit = 5,
+  forecastLimit = 8,
   city = undefined,
 }) => {
   const endpointOnecall = "//api.openweathermap.org/data/2.5/onecall";
@@ -182,7 +183,7 @@ export const useOpenWeather = ({
       const payload = mapWeatherData(
         forecastResponse.data.current,
         forecastResponse.data.daily,
-        forecastLimit,
+        forecastLimit > 8 ? 8 : forecastLimit,
         location,
       );
       dispatch({ action: SUCCESS, payload });
@@ -195,4 +196,4 @@ export const useOpenWeather = ({
     fetchData();
   }, [city, fetchData, latitude, longitude]);
   return [data, isLoading, error];
-};;
+};

@@ -1,9 +1,12 @@
 .card {
   border-radius: 5px;
-  box-shadow: 1px 0px 6px rgb(88, 88, 88);
+  box-shadow: 0px 0px 3px rgb(88, 88, 88);
   margin: 1rem 2rem 1rem 2rem;
+  transition: box-shadow 0.8s;
 }
-
+.card:hover {
+  box-shadow: 1px 0px 16px rgb(88, 88, 88);
+}
 .card-today {
   display: flex;
 }
@@ -21,5 +24,11 @@
 
 .rCard-left,
 .rCard-right {
+  transition: box-shadow 0.6s;
   background-image: linear-gradient(to bottom right, #0181c2, #04a7f9, #4bc4f7);
+}
+
+.rCard-left:hover,
+.rCard-right:hover {
+  box-shadow: 0px 1px 16px #0181c2;
 }

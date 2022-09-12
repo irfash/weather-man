@@ -9,7 +9,12 @@ export const Forecast = ({ forecast, unitsLabels }) => {
           <div key={i} className="forecast-day">
             <div className="forecast-date">{day.date}</div>
 
-            <Icons color={"#0096FF"} path={day.icon} title={day.description} />
+            <Icons
+              color={"#0096FF"}
+              path={day.icon}
+              title={day.description}
+              className="forecast-icon"
+            />
 
             <div className="forecast-des">{day.description}</div>
             <div className="forecast-temperature">
